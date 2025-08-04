@@ -3,11 +3,10 @@ import { useMemo } from "react";
 import { SortableContext, useSortable } from "@dnd-kit/sortable";
 import { CSS } from "@dnd-kit/utilities";
 import { cva } from "class-variance-authority";
-import { GripVertical } from "lucide-react";
+import { Grip } from "lucide-react";
 
 import { Button } from "@/components/ui/button";
 import { Card, CardContent, CardHeader } from "@/components/ui/card";
-import { ScrollArea } from "@/components/ui/scroll-area";
 import type { BoardColumnProps, ColumnDragData } from "@/components/BoardColumn";
 import { TaskCard } from "@/components/TaskCard";
 
@@ -34,18 +33,15 @@ export const BoardColumn = (props: BoardColumnProps) => {
     transform: CSS.Translate.toString(transform),
   };
 
-  const variants = cva(
-    "h-[500px] max-h-[500px] w-[350px] max-w-full bg-primary-foreground flex flex-col flex-shrink-0 snap-center",
-    {
-      variants: {
-        dragging: {
-          default: "border-2 border-transparent",
-          over: "ring-2 opacity-30",
-          overlay: "ring-2 ring-primary",
-        },
+  const variants = cva("min-h-[500px] w-[350px] max-w-full bg-primary-foreground flex flex-col flex-shrink-0 snap-center", {
+    variants: {
+      dragging: {
+        default: "border-2 border-transparent",
+        over: "ring-2 opacity-30",
+        overlay: "ring-2 ring-primary",
       },
-    }
-  );
+    },
+  });
 
   return (
     <Card
@@ -63,19 +59,17 @@ export const BoardColumn = (props: BoardColumnProps) => {
           className="relative -ml-2 h-auto cursor-grab p-1 text-primary/50"
         >
           <span className="sr-only">{`Move column: ${column.title}`}</span>
-          <GripVertical />
+          <Grip />
         </Button>
         <span className="ml-auto"> {column.title}</span>
       </CardHeader>
-      <ScrollArea>
-        <CardContent className="flex flex-grow flex-col gap-2 p-2">
-          <SortableContext items={tasksIds}>
-            {tasks.map((task) => (
-              <TaskCard key={task.id} task={task} />
-            ))}
-          </SortableContext>
-        </CardContent>
-      </ScrollArea>
+      <CardContent className="flex flex-grow flex-col gap-2 p-2">
+        <SortableContext items={tasksIds}>
+          {tasks.map((task) => (
+            <TaskCard key={task.id} task={task} />
+          ))}
+        </SortableContext>
+      </CardContent>
     </Card>
   );
 };

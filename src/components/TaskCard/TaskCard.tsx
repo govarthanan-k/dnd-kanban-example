@@ -1,7 +1,7 @@
 import { useSortable } from "@dnd-kit/sortable";
 import { CSS } from "@dnd-kit/utilities";
 import { cva } from "class-variance-authority";
-import { GripVertical } from "lucide-react";
+import { Grip } from "lucide-react";
 
 import { Badge } from "@/components/ui/badge";
 import { Button } from "@/components/ui/button";
@@ -51,7 +51,7 @@ export const TaskCard = (props: TaskCardProps) => {
           className="-ml-2 h-auto cursor-grab p-1 text-secondary-foreground/50"
         >
           <span className="sr-only">Move task</span>
-          <GripVertical />
+          <Grip />
         </Button>
         <Badge variant={"outline"} className="ml-auto font-semibold">
           Task
