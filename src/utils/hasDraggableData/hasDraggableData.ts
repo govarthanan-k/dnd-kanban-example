@@ -1,21 +1,6 @@
-import { Active, DataRef, Over } from "@dnd-kit/core";
+import type { Active, Over } from "@dnd-kit/core";
 
-import { DraggableData } from "./hasDraggableData.types";
+import type { ValidEntry } from "./hasDraggableData.types";
 
-export const hasDraggableData = <T extends Active | Over>(
-  entry: T | null | undefined
-): entry is T & {
-  data: DataRef<DraggableData>;
-} => {
-  if (!entry) {
-    return false;
-  }
-
-  const data = entry.data.current;
-
-  if (data?.type === "Column" || data?.type === "Task") {
-    return true;
-  }
-
-  return false;
-};
+export const hasDraggableData = (entry: Active | Over | null | undefined): entry is ValidEntry =>
+  !!entry && !!entry.data.current && (entry.data.current.type === "Column" || entry.data.current.type === "Task");

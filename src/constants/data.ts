@@ -1,5 +1,5 @@
-import { Column } from "@/components/BoardColumn";
-import { Task } from "@/components/TaskCard";
+import type { Column } from "@/components/BoardColumn";
+import type { Task } from "@/components/TaskCard";
 
 export const INITIAL_TASKS: Task[] = [
   {

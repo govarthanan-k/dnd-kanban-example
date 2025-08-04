@@ -1,6 +1,6 @@
 import { createContext, useContext } from "react";
 
-import { ThemeProviderState } from "@/theme";
+import type { ThemeProviderState } from "@/theme";
 
 const initialState = {
   theme: "system",
@@ -12,7 +12,9 @@ export const ThemeProviderContext = createContext<ThemeProviderState>(initialSta
 export const useTheme = () => {
   const context = useContext(ThemeProviderContext);
 
-  if (context === undefined) throw new Error("useTheme must be used within a ThemeProvider");
+  if (context === undefined) {
+    throw new Error("useTheme must be used within a ThemeProvider");
+  }
 
   return context;
 };

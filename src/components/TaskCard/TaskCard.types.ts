@@ -1,6 +1,6 @@
-import { UniqueIdentifier } from "@dnd-kit/core";
+import type { UniqueIdentifier } from "@dnd-kit/core";
 
-import { ColumnId } from "@/constants";
+import type { ColumnId } from "@/constants";
 
 export interface Task {
   id: UniqueIdentifier;
