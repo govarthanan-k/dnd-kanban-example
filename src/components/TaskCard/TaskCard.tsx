@@ -1,40 +1,16 @@
-import type { UniqueIdentifier } from "@dnd-kit/core";
 import { useSortable } from "@dnd-kit/sortable";
 import { CSS } from "@dnd-kit/utilities";
-import { Card, CardContent, CardHeader } from "@/components/ui/card";
-import { Button } from "@/components/ui/button";
 import { cva } from "class-variance-authority";
 import { GripVertical } from "lucide-react";
-import { Badge } from "./ui/badge";
-import { ColumnId } from "./KanbanBoard";
 
-export interface Task {
-  id: UniqueIdentifier;
-  columnId: ColumnId;
-  content: string;
-}
+import { Badge } from "@/components/ui/badge";
+import { Button } from "@/components/ui/button";
+import { Card, CardContent, CardHeader } from "@/components/ui/card";
+import type { TaskCardProps, TaskDragData } from "@/components/TaskCard";
 
-interface TaskCardProps {
-  task: Task;
-  isOverlay?: boolean;
-}
-
-export type TaskType = "Task";
-
-export interface TaskDragData {
-  type: TaskType;
-  task: Task;
-}
-
-export function TaskCard({ task, isOverlay }: TaskCardProps) {
-  const {
-    setNodeRef,
-    attributes,
-    listeners,
-    transform,
-    transition,
-    isDragging,
-  } = useSortable({
+export const TaskCard = (props: TaskCardProps) => {
+  const { task, isOverlay } = props;
+  const { setNodeRef, attributes, listeners, transform, transition, isDragging } = useSortable({
     id: task.id,
     data: {
       type: "Task",
@@ -67,12 +43,12 @@ export function TaskCard({ task, isOverlay }: TaskCardProps) {
         dragging: isOverlay ? "overlay" : isDragging ? "over" : undefined,
       })}
     >
-      <CardHeader className="px-3 py-3 space-between flex flex-row border-b-2 border-secondary relative">
+      <CardHeader className="space-between relative flex flex-row border-b-2 border-secondary px-3 py-3">
         <Button
           variant={"ghost"}
           {...attributes}
           {...listeners}
-          className="p-1 text-secondary-foreground/50 -ml-2 h-auto cursor-grab"
+          className="-ml-2 h-auto cursor-grab p-1 text-secondary-foreground/50"
         >
           <span className="sr-only">Move task</span>
           <GripVertical />
@@ -81,9 +57,7 @@ export function TaskCard({ task, isOverlay }: TaskCardProps) {
           Task
         </Badge>
       </CardHeader>
-      <CardContent className="px-3 pt-3 pb-6 text-left whitespace-pre-wrap">
-        {task.content}
-      </CardContent>
+      <CardContent className="whitespace-pre-wrap px-3 pb-6 pt-3 text-left">{task.content}</CardContent>
     </Card>
   );
-}
+};

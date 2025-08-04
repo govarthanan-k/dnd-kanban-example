@@ -1,17 +1,6 @@
-import {
-  closestCorners,
-  getFirstCollision,
-  KeyboardCode,
-  DroppableContainer,
-  KeyboardCoordinateGetter,
-} from "@dnd-kit/core";
+import { closestCorners, DroppableContainer, getFirstCollision, KeyboardCode, KeyboardCoordinateGetter } from "@dnd-kit/core";
 
-const directions: string[] = [
-  KeyboardCode.Down,
-  KeyboardCode.Right,
-  KeyboardCode.Up,
-  KeyboardCode.Left,
-];
+const directions: string[] = [KeyboardCode.Down, KeyboardCode.Right, KeyboardCode.Up, KeyboardCode.Left];
 
 export const coordinateGetter: KeyboardCoordinateGetter = (
   event,

@@ -1,45 +1,24 @@
-import { SortableContext, useSortable } from "@dnd-kit/sortable";
-import { useDndContext, type UniqueIdentifier } from "@dnd-kit/core";
-import { CSS } from "@dnd-kit/utilities";
 import { useMemo } from "react";
-import { Task, TaskCard } from "./TaskCard";
+
+import { SortableContext, useSortable } from "@dnd-kit/sortable";
+import { CSS } from "@dnd-kit/utilities";
 import { cva } from "class-variance-authority";
-import { Card, CardContent, CardHeader } from "./ui/card";
-import { Button } from "./ui/button";
 import { GripVertical } from "lucide-react";
-import { ScrollArea, ScrollBar } from "./ui/scroll-area";
 
-export interface Column {
-  id: UniqueIdentifier;
-  title: string;
-}
+import { Button } from "@/components/ui/button";
+import { Card, CardContent, CardHeader } from "@/components/ui/card";
+import { ScrollArea } from "@/components/ui/scroll-area";
+import type { BoardColumnProps, ColumnDragData } from "@/components/BoardColumn";
+import { TaskCard } from "@/components/TaskCard";
 
-export type ColumnType = "Column";
+export const BoardColumn = (props: BoardColumnProps) => {
+  const { column, tasks, isOverlay } = props;
 
-export interface ColumnDragData {
-  type: ColumnType;
-  column: Column;
-}
-
-interface BoardColumnProps {
-  column: Column;
-  tasks: Task[];
-  isOverlay?: boolean;
-}
-
-export function BoardColumn({ column, tasks, isOverlay }: BoardColumnProps) {
   const tasksIds = useMemo(() => {
     return tasks.map((task) => task.id);
   }, [tasks]);
 
-  const {
-    setNodeRef,
-    attributes,
-    listeners,
-    transform,
-    transition,
-    isDragging,
-  } = useSortable({
+  const { setNodeRef, attributes, listeners, transform, transition, isDragging } = useSortable({
     id: column.id,
     data: {
       type: "Column",
@@ -76,12 +55,12 @@ export function BoardColumn({ column, tasks, isOverlay }: BoardColumnProps) {
         dragging: isOverlay ? "overlay" : isDragging ? "over" : undefined,
       })}
     >
-      <CardHeader className="p-4 font-semibold border-b-2 text-left flex flex-row space-between items-center">
+      <CardHeader className="space-between flex flex-row items-center border-b-2 p-4 text-left font-semibold">
         <Button
           variant={"ghost"}
           {...attributes}
           {...listeners}
-          className=" p-1 text-primary/50 -ml-2 h-auto cursor-grab relative"
+          className="relative -ml-2 h-auto cursor-grab p-1 text-primary/50"
         >
           <span className="sr-only">{`Move column: ${column.title}`}</span>
           <GripVertical />
@@ -99,30 +78,4 @@ export function BoardColumn({ column, tasks, isOverlay }: BoardColumnProps) {
       </ScrollArea>
     </Card>
   );
-}
-
-export function BoardContainer({ children }: { children: React.ReactNode }) {
-  const dndContext = useDndContext();
-
-  const variations = cva("px-2 md:px-0 flex lg:justify-center pb-4", {
-    variants: {
-      dragging: {
-        default: "snap-x snap-mandatory",
-        active: "snap-none",
-      },
-    },
-  });
-
-  return (
-    <ScrollArea
-      className={variations({
-        dragging: dndContext.active ? "active" : "default",
-      })}
-    >
-      <div className="flex gap-4 items-center flex-row justify-center">
-        {children}
-      </div>
-      <ScrollBar orientation="horizontal" />
-    </ScrollArea>
-  );
-}
+};
